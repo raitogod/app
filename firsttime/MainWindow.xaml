@@ -1,0 +1,126 @@
+﻿<Window x:Class="firsttime.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"      
+        xmlns:local="clr-namespace:firsttime"
+        mc:Ignorable="d"
+        Background="#02cccc"
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="200"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="ElWorld" FontStyle="Italic" FontSize="24" FontWeight="Bold" Foreground="#FF633AB7"  Margin="40, 5, 0, 0"/>
+
+        <StackPanel Visibility="Collapsed" Grid.Row="1" Grid.Column="1" x:Name="StartScreen">
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 80, 0, 0" FontSize="30" Content="Добро Пожаловать!" FontWeight="Bold" FontStyle="Italic"/>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 20, 0, 0" FontSize="24" Content="В наш магазин" FontWeight="DemiBold" FontStyle="Oblique"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <RadioButton Style="{StaticResource RightMenuStyle}" x:Name="MainScreenView" Content="Товары" Checked="MenuChekedButton"/>
+            <RadioButton Style="{StaticResource RightMenuStyle}" x:Name="CabinetScreenView" Content="Личный кабинет" Checked="MenuChekedButton"/>
+            <RadioButton Style="{StaticResource RightMenuStyle}" x:Name="BackProductScreenView" Content="Возврат товара" Checked="MenuChekedButton"/>
+            <RadioButton Style="{StaticResource RightMenuStyle}" x:Name="AboutUsScreenView" Content="О Нас" Checked="MenuChekedButton"/>
+            <RadioButton Style="{StaticResource RightMenuStyle}" x:Name="HelpScreenView" Content="Помощь" Checked="MenuChekedButton"/>
+        </StackPanel>
+
+        <Grid Grid.Column="1" Width="auto" >
+            <Label Width="100" x:Name="UserNameLabel" HorizontalAlignment="Left"  Content="UserName"  FontStyle="Italic" FontSize="18" FontWeight="Bold"  Foreground="#3c05ab" />
+            <Button HorizontalAlignment="right" Height="30" Width="30" Margin="0, 0, 55, 0" x:Name="CartButton" Click="CartButton_Click" >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Images/cart.png" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            <Button HorizontalAlignment="right" Height="30" Width="30" Margin="0, 0, 15, 0" x:Name="ExitButton"     Click="ExitButton_Click" >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Images/out.png" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            
+        </Grid>
+
+        <StackPanel x:Name="MainScreen"  Grid.Row="1"  Grid.Column="1">
+            <Menu>
+                <MenuItem Click="AllProducts_Click" x:Name="AllProducts" Header="Все"/>
+                <MenuItem Click="Phones_Click" x:Name="Phones" Header="Телефоны"/>
+                <MenuItem Click="Tablets_Click" x:Name="Tablets" Header="Планшеты"/>
+                <MenuItem Click="HeadSets_Click" x:Name="HeadSets" Header="Наушники"/>
+            </Menu>
+            <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+                <ListView ItemContainerStyle="{StaticResource ProductsList}" Height="325"  Name="productListView" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn  Header="Название" Width="180"  DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn  Header="Модель" Width="125" DisplayMemberBinding="{Binding Description}" />
+                            <GridViewColumn  Header="Цена" Width="125" DisplayMemberBinding="{Binding Price, StringFormat={}{0:C}}" />
+                            <GridViewColumn Width="125">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button  x:Name="AddToCartButton" Style="{StaticResource MaterialDesignFlatDarkBgButton }" Width="100" Click="AddToCartButton_Click" FontSize="10" Tag="{Binding}" Content="Добавить" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </ScrollViewer>
+        </StackPanel>
+
+        <StackPanel Visibility="Hidden" x:Name="CartScreen" Grid.Row="1" Grid.Column="1" >
+            <StackPanel>
+                <TextBlock  Text="Корзина" FontSize="20" HorizontalAlignment="center" Margin="0, 20, 0, 5" FontWeight="Bold" FontStyle="Italic" Foreground="#FF633AB7" />
+                <ScrollViewer  VerticalScrollBarVisibility="Auto">
+                    <ListBox  Height="200"  Name="CartListBox" ItemsSource="{Binding shopCart}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" Width="100" HorizontalAlignment="Left"  Foreground="#FF633AB7"   TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Description}" Width="75" Foreground="#FF633AB7"  Margin="40, 0, 0, 0" HorizontalAlignment="Center"  TextAlignment="Center" />
+                                    <TextBlock Text="{Binding Price,StringFormat={}{0:C}}" Width="75" Foreground="#FF633AB7"  Margin="30, 5, 0, 0"/>
+                                    <Button x:Name="DeleteFromCartButton" Content="Удалить" HorizontalAlignment="Right"  Tag="{Binding}" Width="100" Style="{StaticResource MaterialDesignFlatDarkBgButton }" Margin="60, 0, 0, 0"  FontSize="10" Click="DeleteFromCartButton_Click" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                <TextBlock Name="CartInfo" TextAlignment="center" HorizontalAlignment="center" VerticalAlignment="center" Width="Auto" Height="50" >
+
+                </TextBlock>
+                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton }" x:Name="BuyAll" Width="150"   Content="Оплатить" Click="BuyAll_Click" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Visibility="Hidden" x:Name="AboutUsScreen" >
+            <TextBlock Text="Магазин товаров ElWord" Foreground="Black" FontSize="22"/>
+            <TextBlock Text="Основанный в 2023 году!" Foreground="Black" FontSize="22"/>
+        </StackPanel>
+
+        <StackPanel Visibility="Hidden" Grid.Row="1" Grid.Column="1" x:Name="CabinetScreen" >
+            <Label Margin="20,20,20,20" Width="400" x:Name="UserNameInfo" HorizontalAlignment="Left"  Content="UserName"  FontStyle="Italic" FontSize="16" FontWeight="Bold"  Foreground="Black" />
+            <Label Margin="20,20,20,20" Width="400" x:Name="UserEmailInfo" HorizontalAlignment="Left"  Content="UserEmail"  FontStyle="Italic" FontSize="16" FontWeight="Bold"  Foreground="Black" />
+        </StackPanel>
+
+        <StackPanel Visibility="Hidden" Grid.Row="1" Grid.Column="1" x:Name="BackProductScreen" >
+            <TextBlock TextAlignment="Center"  FontSize="16" Margin="10, 10, 5, 5" TextWrapping="Wrap" Text="     В соответствии с Законом Украины «О защите прав потребителей» наши покупатели имеют право обменять или вернуть новый товар (кроме товаров не подлежащих возврату согласно постановлению Кабинета Министров Украины №172 от 19 марта 1994 г.), в течение первых 14 дней после покупки, если его возврат не противоречит другим статьям, описанным в ЗУ ОЗПП.
+                Обмену или возврату подлежит только новый товар, который не был в употреблении и не имеет следов использования (царапин, сколов, потёртостей) на счётчике телефона не более 5 минут разговоров, программное обеспечение не подвергалось изменениям и т.п.
+                " />
+        </StackPanel>
+
+        <StackPanel Visibility="Hidden" Grid.Row="1" Grid.Column="1" x:Name="HelpScreen" >
+            <Label FontSize="16" Margin="10, 10, 5, 5" Content="Звоните по телефону : +380123412341234"/>
+            <Label FontSize="16" Margin="10, 10, 5, 5" Content="Пишите на почту : elworld@gmail.com"/>
+            
+        </StackPanel>
+    </Grid>
+</Window>

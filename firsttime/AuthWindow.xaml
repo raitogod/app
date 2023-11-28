@@ -1,0 +1,20 @@
+﻿<Window x:Class="firsttime.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:firsttime"
+        mc:Ignorable="d"
+        Background="#02cccc"
+        ResizeMode="NoResize"
+        Title="AuthWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="Авторизация" FontSize="24" Foreground="#FF673AB7" FontStyle="Italic"
+               HorizontalAlignment="Center" Margin="0,84,0,0" VerticalAlignment="Top"/>
+        <TextBox Foreground="#FF673AB7" x:Name="UserLoginField"  HorizontalAlignment="Center" Margin="0,160,0,0" TextWrapping="NoWrap" materialDesign:HintAssist.Hint="Введите логин" VerticalAlignment="Top" Padding="2" Width="120"/>
+        <PasswordBox Foreground="#FF673AB7" materialDesign:HintAssist.Hint="Введите пароль" x:Name="UserPasswordField" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" />
+        <Button x:Name="UserAuthButton" Content="Войти" HorizontalAlignment="Center" Margin="0,272,0,0" VerticalAlignment="Top" Click="UserAuthButton_Click" RenderTransformOrigin="0.032,0.478"/>
+        <Button Style="{StaticResource MaterialDesignFlatLightButton}" x:Name="GoToRegisterButton" Content="Нету аккаунта?" HorizontalAlignment="Center" Margin="0,325,0,0" VerticalAlignment="Top"  RenderTransformOrigin="0.032,0.478" Click="GoToRegisterButton_Click"/>
+    </Grid>
+</Window>
